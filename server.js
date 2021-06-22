@@ -36,6 +36,8 @@ app.use(morgan('combined'));
 app.use(express.static('public'));
 
 app.get('/', (req, res) => {
+    console.log('database url:', process.env.DATABASE_URL)
+    console.log('db:', db)
     db.select('*').from('users')
     .then(users => res.json(users))
     .catch(err => res.send('could not get users'));
