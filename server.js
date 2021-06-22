@@ -54,8 +54,8 @@ app.post('/temp', upload.tempUploads.single('image'), profile.handleTempImage)
 app.put('/image', auth.requireAuth(redisClient), (req, res) => image.handleImage(req, res, db))
 app.post('/imageurl', auth.requireAuth(redisClient), (req, res) => image.handleApiCall(req, res, db))
 
-app.listen(3000, () => {
-    console.log('app is running on port 3000');
+app.listen(process.env.PORT || 3000, () => {
+    console.log('app is running on port', process.env.PORT || 3000);
 })
 
 /********
