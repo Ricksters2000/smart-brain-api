@@ -17,7 +17,7 @@ const upload = require('./middlewares/uploads');
 
 const db = knex({
     client: 'pg',
-    connection: process.env.POSTGRES_URI //{
+    connection: process.env.DATABASE_URL //{
         //   host : process.env.POSTGRES_HOST,
         //   user : process.env.POSTGRES_USER,
         //   password : process.env.POSTGRES_PASSWORD,
@@ -26,7 +26,7 @@ const db = knex({
     });
     
 //setup redis:
-const redisClient = redis.createClient(process.env.REDIS_URI);
+const redisClient = redis.createClient(process.env.REDIS_URL);
 
 const app = express();
 app.use(express.json());
