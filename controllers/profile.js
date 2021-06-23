@@ -29,7 +29,7 @@ const handleProfileUpdate = (req, res, db, s3Client) => {
                     } else {
                         res.status(400).json('unable to update user');
                     }
-                }).catch(err => res.status(400).json('error updating user'))
+                }).catch(err => res.status(400).json('error updating user', err))
         }).catch(err => res.status(400).json(err))
     
 }
