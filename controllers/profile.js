@@ -18,11 +18,14 @@ const handleProfileGet = (req, res, db) => {
 const handleProfileUpdate = (req, res, db, s3Client) => {
     const {id} = req.params;
     const {name, age, pet} = req.body;
-    const image = req.file.destination+req.file.filename;
+    const image = req.file ? req.file.destination+req.file.filename : '';
 
     uploadImage(image, s3Client)
         .then(data => {
-            db('users').where({id}).update({name, age, pet, image})
+            const userOptions = {name, age, pet}
+            if(data !== 'no image')
+                userOptions['image'] = image;
+            db('users').where({id}).update(userOptions)
                 .then(resp => {
                     if(resp) {
                         res.json('success');
@@ -59,6 +62,8 @@ const handleTempImage = (req, res) => {
 }
 
 const uploadImage = (file, s3Client) => {
+    if(!file)
+        return Promise.resolve('no image');
     // const file = req.file.destination + req.file.filename;
     const fileStream = fs.createReadStream(file);
     console.log('key:', file)
