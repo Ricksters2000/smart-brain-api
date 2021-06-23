@@ -18,7 +18,7 @@ const handleProfileGet = (req, res, db) => {
 const handleProfileUpdate = (req, res, db, s3Client) => {
     const {id} = req.params;
     const {name, age, pet} = req.body;
-    const image = req.file ? req.file.destination+req.file.filename : '';
+    const image = req.file?.destination ? req.file.destination+req.file.filename : '';
 
     uploadImage(image, s3Client)
         .then(data => {
