@@ -6,6 +6,7 @@ const cors = require('cors');
 const knex = require('knex');
 const morgan = require('morgan');
 const redis = require('redis');
+const {s3Client} = require('./libs/s3Client');
 
 const register = require('./controllers/register');
 const signin = require('./controllers/signin');
@@ -47,7 +48,7 @@ app.post('/signout', signout.handleSignout(redisClient))
 app.post('/register', (req, res) => register.handleRegister(req, res, db, bcrypt, redisClient))
 
 app.get('/profile/:id', auth.requireAuth(redisClient), (req, res) => profile.handleProfileGet(req, res, db))
-app.post('/profile/:id', auth.requireAuth(redisClient), upload.imageUploads.single('image'), (req, res) => profile.handleProfileUpdate(req, res, db))
+app.post('/profile/:id', auth.requireAuth(redisClient), upload.imageUploads.single('image'), (req, res) => profile.handleProfileUpdate(req, res, db, s3Client))
 app.post('/profile/image/:id', upload.imageUploads.single('image'), (req, res) => profile.handleProfileUpdateImage(req, res, db))
 app.post('/temp', upload.tempUploads.single('image'), profile.handleTempImage)
 
