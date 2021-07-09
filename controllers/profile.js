@@ -22,7 +22,9 @@ const handleProfileUpdate = (req, res, db, s3Client) => {
 
     uploadImage(image, s3Client)
         .then(data => {
-            const userOptions = {name, age, pet}
+            const userOptions = {name, pet}
+            if(age)
+                userOptions['age'] = age;
             if(data !== 'no image')
                 userOptions['image'] = image;
             db('users').where({id}).update(userOptions)
